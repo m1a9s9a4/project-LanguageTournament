@@ -1,0 +1,40 @@
+version: '3'
+services:
+  app:
+    build: .  # docker-compose.yml はgo/ 直下に置いてるので . ディレクトリでビルドする
+    container_name: go_app  # 自由に決められる
+    volumes:
+      - ./backend/:/go # dockerコンテナ上の変更をローカルのmacに保存
+    ports:
+      - 1323:1323 # 開放するポート
+    depends_on: # dbコンテナに接続する ビルドするのもdbコンテナが立ち上がってからになる
+      - mysql
+
+  mysql:
+    image: mysql:5.7
+    ports:
+        - 3306:3306
+    volumes:
+      - "./mysql:/var/lib/mysql"
+      - "./sqls/init:/docker-entrypoint-initdb.d"
+    environment:
+      - MYSQL_DATABASE=comparision_box
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
+      - MYSQL_ROOT_PASSWORD=password
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=password
+    links:
+      - mysql
+    ports:
+      - 8080:80
+    volumes:
+      - /sessions
+volumes:
+  mysql_data: # ローカルのディレクトリにデータを保存
