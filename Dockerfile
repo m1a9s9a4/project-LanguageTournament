@@ -1,20 +1,12 @@
 FROM golang:alpine
 
-ENV GOPATH=''
-
 WORKDIR /app
+# COPY backend/go.mod .
+# COPY backend/go.sum .
 
-# EXPOSE 8000
-
-WORKDIR /go
-RUN apk add git vim openssh
-
-RUN go get -u github.com/labstack/echo
-RUN go get -u github.com/dgrijalva/jwt-go
-RUN go get -u github.com/jinzhu/gorm
-RUN go get -u github.com/go-sql-driver/mysql
-RUN go get golang.org/x/tools/cmd/goimports
-RUN go get gopkg.in/urfave/cli.v2
+RUN apk update
+RUN apk add git vim
 RUN go get github.com/oxequa/realize
+# RUN go mod download
 
-RUN mkdir backend/
+# CMD ["go", "run", "main.go"]
