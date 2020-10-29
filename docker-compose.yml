@@ -8,8 +8,8 @@ services:
       - ./backend/:/app # dockerコンテナ上の変更をローカルのmacに保存
     ports:
       - 8080:8080 # 開放するポート
-    # depends_on: # dbコンテナに接続する ビルドするのもdbコンテナが立ち上がってからになる
-      # - mysql
+    depends_on: # dbコンテナに接続する ビルドするのもdbコンテナが立ち上がってからになる
+      - mysql
 
   mysql:
     image: mysql:5.7
