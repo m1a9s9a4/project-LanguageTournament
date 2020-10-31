@@ -1,7 +1,7 @@
 version: '3'
 services:
   app:
-    build: .  # docker-compose.yml はgo/ 直下に置いてるので . ディレクトリでビルドする
+    build: ./golang/
     container_name: go_app  # 自由に決められる
     command: "realize start --run"
     volumes:
@@ -12,7 +12,7 @@ services:
       - mysql
 
   mysql:
-    image: mysql:5.7
+    build: ./mysql/
     ports:
         - 3306:3306
     volumes:
