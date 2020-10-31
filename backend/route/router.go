@@ -24,21 +24,10 @@ func Init() *echo.Echo {
 		v1.GET("/", func(c echo.Context) error {
 			return c.String(http.StatusOK, "welcome to language tournament")
 		})
-		v1.GET("/language/:id", getLanguage)
-		v1.GET("/battle/:l1/:l2", getBattle)
+		v1.GET("/players/type/:type_id", api.GetPlayersByTypeId())
+		v1.GET("/player/english/:english", api.FirstPlayerByEnglish())
+		v1.GET("/player_type/:id", api.FirstPlayerTypeById())
 	}
 
 	return e
-}
-
-func getLanguage(c echo.Context) error {
-	id := c.Param("id")
-	return c.String(http.StatusOK, id)
-}
-
-func getBattle(c echo.Context) error {
-	l1 := c.Param("l1")
-	l2 := c.Param("l2")
-	// languageに紐づく質問を全て取得して渡す
-	return c.String(http.StatusOK, "battle: "+l1+" vs "+l2)
 }
