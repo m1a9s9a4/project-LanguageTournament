@@ -27,6 +27,7 @@ func Init() *echo.Echo {
 		v1.GET("/players/type/:type_id", api.GetPlayersByTypeId())
 		v1.GET("/player/english/:english", api.FirstPlayerByEnglish())
 		v1.GET("/player_type/:id", api.FirstPlayerTypeById())
+		v1.GET("/questions/type/:type_id", api.GetQuestionsByPlayerTypeId())
 	}
 
 	return e

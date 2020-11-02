@@ -1,31 +1,36 @@
 <template>
     <v-main>
-      <Question :question="question" />
-      <v-row class="align-center">
-        <v-col md="5" cols="12">
-          <Language 
-            :name="language_1"
-            imgsrc="https://www.php.net//images/logos/new-php-logo.svg"
-          />
-        </v-col>
-        <v-col class="display-3" cols="12">
-          <div class="text-center">
-            or
-          </div>
-        </v-col>
-        <v-col md="5" cols="12">
-          <Language
-            :name="language_2"
-            imgsrc="https://golang.org/lib/godoc/images/go-logo-blue.svg"
-          />
-        </v-col>
-      </v-row>
+        <Question v-if="currentQuestion" :question="currentQuestion" :current="currentNumber" :total="totalQuestions" />
+        <v-row class="align-center">
+          <v-col md="5" cols="12">
+            <Language 
+              :id="player1.id"
+              :name="player1.english"
+              :imgsrc="player1.img"
+              @selected-id="execute"
+            />
+          </v-col>
+          <v-col class="display-3" cols="12">
+            <div class="text-center">
+              or
+            </div>
+          </v-col>
+          <v-col md="5" cols="12">
+            <Language
+              :id="player2.id"
+              :name="player2.english"
+              :imgsrc="player2.img"
+              @selected-id="execute"
+            />
+          </v-col>
+        </v-row>        
     </v-main>
 </template>
 
 <script>
 import Question from './components/Battle/Question';
 import Language from './components/Battle/Language';
+import Axios from 'axios';
 
 export default {
   name: 'App',
@@ -36,27 +41,71 @@ export default {
   },
 
   data: () => ({
-    question: '',
+    player1: [],
+    player2: [],
+    questions: {},
+    currentQuestion: null,
+    currentNumber: 1,
+    totalQuestions: 0,
+    error: [],
   }),
 
-  computed: {
-    language_1: function () {
-      return this.$route.params["l1"];
-    },
-    language_2: function () {
-      return this.$route.params["l2"];
-    }
-  },
 
   created: function () {
     this.getQuestion();
   },
 
+  mounted: function () {
+    this.getPlayer(this.$route.params["p1"]);
+    this.getPlayer(this.$route.params["p2"]);
+  },
+
   methods: {
     getQuestion: function () {
-      this.question = '質問が入ります';
+      Axios
+        .get("/api/v1/questions/type/1")
+        .then(res => {
+          this.questions = res.data;
+          this.totalQuestions = this.questions.length;
+          if (this.totalQuestions > 0) {
+            this.currentQuestion = res.data[this.currentNumber];
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        })
     },
+    getPlayer: function (english) {
+      Axios
+      .get("/api/v1/player/english/" + english)
+      .then(res => {
+        if (this.player1.length < 1) {
+          this.player1 = res.data;
+          this.getQuestion();
+          return;
+        }
 
+        this.player2 = res.data;
+      })
+      .catch(e => {
+        console.log(e);
+        this.error.push(english +": not found");
+        return null;
+      });
+    },
+    execute: function (id) {
+      this._toNextQuestion();
+      console.log(id);
+    },
+    _setCurrentNumberFromIndex: function (index) {
+      this.currentNumber = index++;
+    },
+    _toNextQuestion: function () {
+      if (this.currentNumber < this.totalQuestions) {
+        this.currentNumber++;
+        this.currentQuestion = this.questions[this.currentNumber];
+      }
+    }
   }
 };
 </script>
