@@ -10,10 +10,10 @@ type PlayerType struct {
 	ParentID int64  `json:"parent_id"`
 }
 
-const Table = "player_type"
+const PlayerTypeTable = "player_type"
 
 func (pt *PlayerType) FirstById(db *gorm.DB, ID int64) error {
-	rslt := db.Table(Table).Where("id = ?", ID).First(&pt)
+	rslt := db.Table(PlayerTypeTable).Where("id = ?", ID).First(&pt)
 	if rslt.Error != nil {
 		return rslt.Error
 	}

@@ -13,10 +13,10 @@ type Player struct {
 	TypeID   *int   `json:"type_id"`
 }
 
-const table = "player"
+const PlayerTable = "player"
 
 func (p *Player) GetByEnglish(db *gorm.DB, english string) error {
-	rslt := db.Table(table).Where("english = ?", english).First(&p)
+	rslt := db.Table(PlayerTable).Where("english = ?", english).First(&p)
 	if rslt.Error != nil {
 		return rslt.Error
 	}
@@ -26,7 +26,7 @@ func (p *Player) GetByEnglish(db *gorm.DB, english string) error {
 type Players []Player
 
 func (ps *Players) GetByTypeId(db *gorm.DB, typeID int64) error {
-	rslt := db.Table(table).Where("type_id = ?", typeID).Find(&ps)
+	rslt := db.Table(PlayerTable).Where("type_id = ?", typeID).Find(&ps)
 	if rslt.Error != nil {
 		return rslt.Error
 	}
