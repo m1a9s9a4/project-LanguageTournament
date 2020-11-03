@@ -17,6 +17,7 @@ func Init() *echo.Echo {
 
 	e.Use(echoMw.Logger())
 	e.Use(echoMw.Gzip())
+	e.Use(echoMw.CORS())
 	e.Use(myMw.TransactionHandler(db.Init()))
 
 	v1 := e.Group("/api/v1")
@@ -28,6 +29,13 @@ func Init() *echo.Echo {
 		v1.GET("/player/english/:english", api.FirstPlayerByEnglish())
 		v1.GET("/player_type/:id", api.FirstPlayerTypeById())
 		v1.GET("/questions/type/:type_id", api.GetQuestionsByPlayerTypeId())
+		v1.GET("/questions/type/:type_id", api.GetQuestionsByPlayerTypeId())
+		v1.GET("/battle/:id1/:id2", api.GetBattleByIds())
+		v1.GET("/answer/user", api.GetAnsweredUser())
+		v1.GET("/answer/users", api.GetAnsweredUserById())
+
+		v1.POST("/answer", api.SaveAnswer())
+		v1.POST("/answer/user", api.SaveAnsweredUser())
 	}
 
 	return e
