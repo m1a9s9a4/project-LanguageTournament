@@ -38,7 +38,7 @@ CREATE TABLE battle (
     PRIMARY KEY (id),
     INDEX player_id_index (player_1_id, player_2_id),
     UNIQUE player_unique_index (player_1_id, player_2_id)
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE question (
     id INT AUTO_INCREMENT,
@@ -57,11 +57,25 @@ CREATE TABLE answer (
     battle_id INT NOT NULL,
     question_id INT NOT NULL,
     selected_player_id INT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    deleted_at DATETIME DEFAULT NULL,
     FOREIGN KEY (battle_id) REFERENCES battle (id),
     FOREIGN KEY (question_id) REFERENCES question (id),
     FOREIGN KEY (selected_player_id) REFERENCES player (id),
     PRIMARY KEY (id),
     INDEX battle_question_player_ids_index (battle_id, question_id, selected_player_id)
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-
+CREATE TABLE answered_users (
+    id INT AUTO_INCREMENT,
+    uid varchar(100) NOT NULL,
+    question_id INT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    deleted_at DATETIME DEFAULT NULL,
+    FOREIGN KEY (question_id) REFERENCES question (id),
+    PRIMARY KEY (id),
+    INDEX uid_question_index (uid, question_id),
+    UNIQUE uid_question_id_unique_index (uid, question_id)
+) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
