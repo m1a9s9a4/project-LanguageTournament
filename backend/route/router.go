@@ -31,6 +31,7 @@ func Init() *echo.Echo {
 		v1.GET("/questions/type/:type_id", api.GetQuestionsByPlayerTypeId())
 		v1.GET("/questions/type/:type_id", api.GetQuestionsByPlayerTypeId())
 		v1.GET("/battle/:id1/:id2", api.GetBattleByIds())
+		v1.GET("/battle/player/:id", api.GetBattleById())
 		v1.GET("/answer/user", api.GetAnsweredUser())
 		v1.GET("/answer/users", api.GetAnsweredUserById())
 

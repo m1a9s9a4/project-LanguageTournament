@@ -21,11 +21,27 @@ func GetBattleByIds() echo.HandlerFunc {
 		}
 		tx := c.Get("Tx").(*gorm.DB)
 
-		battle := new(model.Battle)
-		if err = battle.FirstByPlayerIds(tx, id1, id2); err != nil {
+		b := new(model.Battle)
+		if err = b.FirstByPlayerIds(tx, id1, id2); err != nil {
 			return echo.NewHTTPError(http.StatusNotFound, err)
 		}
 
-		return c.JSON(http.StatusOK, battle)
+		return c.JSON(http.StatusOK, b)
+	}
+}
+
+func GetBattleById() echo.HandlerFunc {
+	return func(c echo.Context) (err error) {
+		id, err := strconv.ParseInt(c.Param("id"), 0, 64)
+		if err != nil {
+			return err
+		}
+
+		tx := c.Get("Tx").(*gorm.DB)
+		bs := new(model.Battles)
+		if err := bs.GetByPlayerId(tx, id); err != nil {
+			return echo.NewHTTPError(http.StatusNotFound, err)
+		}
+		return c.JSON(http.StatusOK, bs)
 	}
 }
