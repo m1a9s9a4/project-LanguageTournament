@@ -38,6 +38,22 @@ func GetAnsweredUser() echo.HandlerFunc {
 	}
 }
 
+func GetAnsweredUserByBattleId() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		tx := c.Get("Tx").(*gorm.DB)
+		uid := c.QueryParam("uid")
+		bid, err := strconv.ParseInt(c.QueryParam("bid"), 0, 64)
+		if err != nil {
+			return echo.NewHTTPError(http.StatusNotFound, err)
+		}
+		users := new(model.AnsweredUsers)
+		if err := users.GetQIdByBId(tx, uid, bid); err != nil {
+			return echo.NewHTTPError(http.StatusNotFound, err)
+		}
+		return c.JSON(http.StatusOK, users)
+	}
+}
+
 func SaveAnsweredUser() echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		user := new(model.AnsweredUser)

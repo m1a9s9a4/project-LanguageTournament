@@ -85,10 +85,14 @@ export default {
       Axios
         .get("/api/v1/battle/" +this.player1.id+"/"+this.player2.id)
         .then(res => {
+          console.log
           this.battleId = res.data.id;
         })
         .catch(e => {
           console.error(e);
+        })
+        .finally(() => {
+          this._checkAnsweredQuestions();
         });
     },
     getQuestion: function () {
@@ -97,7 +101,6 @@ export default {
         .then(res => {
           this.questions = res.data;
           this.numberOfQuestions = this.questions.length;
-          this._checkAnsweredQuestions();
         })
         .catch(e => {
           console.error(e);
@@ -150,6 +153,7 @@ export default {
         .get("/api/v1/answer/users", {
           params: {
             uid: this.uid,
+            bid: this.battleId,
           }
         })
         .then(res => {
@@ -176,30 +180,16 @@ export default {
     _resetTotalQuestionNumber: function () {
       this.numberOfQuestions = this.questions.length;
     },
-    _getUser: function () {
-      Axios
-        .get("/api/v1/answer/user", {
-          params: {
-            uid: this.uid,
-            qid: this.currentQuestion.id,
-          }
-        })
-        .then(res => {
-          this.matchedUid = res.status == 200;
-        })
-        .catch(e => {
-          console.error(e);
-          this.matchedUid = false;
-        });
-    },
     _saveUser: function (qid) {
       if (this.uid == null) {
         return;
       }
       const params = {
         question_id: qid,
+        battle_id: this.battleId,
         uid: this.uid,
       };
+      console.log(params);
       Axios
         .post("/api/v1/answer/user", params, {
           headers: {

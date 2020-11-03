@@ -4,8 +4,9 @@ import "gorm.io/gorm"
 
 type AnsweredUser struct {
 	gorm.Model
-	UID        string `json:"uid"`
-	QuestionID int    `json:"question_id"`
+	UID         string `json:"uid"`
+	Battle_ID   int    `json:"battle_id"`
+	Question_ID int    `json:"question_id"`
 }
 
 const AnsweredUserTable = "answered_users"
@@ -29,13 +30,20 @@ func (au *AnsweredUser) Save(db *gorm.DB) error {
 }
 
 type AnsweredUserQuestionId struct {
-	QuestionID int `json:"question_id"`
+	Question_ID int `json:"question_id"`
 }
 
 type AnsweredUsers []AnsweredUserQuestionId
 
 func (aus *AnsweredUsers) GetQIdById(db *gorm.DB, uid string) error {
 	if rslt := db.Table(AnsweredUserTable).Select("question_id").Where("uid = ?", uid).Find(&aus); rslt.Error != nil {
+		return rslt.Error
+	}
+	return nil
+}
+
+func (aus *AnsweredUsers) GetQIdByBId(db *gorm.DB, uid string, bid int64) error {
+	if rslt := db.Table(AnsweredUserTable).Select("question_id").Where("uid = ?", uid).Where("battle_id = ?", bid).Find(&aus); rslt.Error != nil {
 		return rslt.Error
 	}
 	return nil

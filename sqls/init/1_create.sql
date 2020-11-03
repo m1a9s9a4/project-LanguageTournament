@@ -70,10 +70,12 @@ CREATE TABLE answer (
 CREATE TABLE answered_users (
     id INT AUTO_INCREMENT,
     uid varchar(100) NOT NULL,
+    battle_id INT NOT NULL,
     question_id INT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     deleted_at DATETIME DEFAULT NULL,
+    FOREIGN KEY (battle_id) REFERENCES battle (id),
     FOREIGN KEY (question_id) REFERENCES question (id),
     PRIMARY KEY (id),
     INDEX uid_question_index (uid, question_id),
