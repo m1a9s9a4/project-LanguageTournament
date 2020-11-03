@@ -25,6 +25,7 @@ func Init() *echo.Echo {
 		v1.GET("/", func(c echo.Context) error {
 			return c.String(http.StatusOK, "welcome to language tournament")
 		})
+		v1.GET("/player/:id", api.FirstPlayerById())
 		v1.GET("/players/type/:type_id", api.GetPlayersByTypeId())
 		v1.GET("/player/english/:english", api.FirstPlayerByEnglish())
 		v1.GET("/player_type/:id", api.FirstPlayerTypeById())
