@@ -4,10 +4,10 @@
         <p class="subtitle-1">ご協力ありがとうございました！</p>
         <v-row>
             <v-col cols="6">
-                <v-img :src="p1.img"></v-img>
+                <v-img :src="src1"></v-img>
             </v-col>
             <v-col cols="6">
-                <v-img :src="p2.img"></v-img>
+                <v-img :src="src2"></v-img>
             </v-col>
         </v-row>
         <v-row>
@@ -23,11 +23,11 @@
 <script>
 export default {
     props: {
-        p1: {
-            type: Object,
+        src1: {
+            type: String,
         },
-        p2: {
-            type: Object,
+        src2: {
+            type: String,
         },
     }
 }

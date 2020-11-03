@@ -1,5 +1,9 @@
 <template>
     <v-main v-cloak>
+      <template v-if="questionFinished">
+        <Complete :src1="player1.img" :src2="player2.img" />
+      </template>
+      <template v-else>
         <Question v-if="currentQuestion" :question="currentQuestion" :current="currentNumber" :total="numberOfQuestions" />
         <v-row class="align-center">
           <template v-if="isAlreadyAnswered">
@@ -29,7 +33,7 @@
             </v-col>
           </template>
         </v-row>
-        <Complete :p1="player1" :p2="player2" />
+      </template>
     </v-main>
 </template>
 
@@ -72,7 +76,7 @@ export default {
       return this.currentNumber - 1;
     },
     questionFinished: function () {
-      return this.numberOfQuestions < this.currentNumber;
+      return this.numberOfQuestions <= this.currentNumber;
     },
   },
 
@@ -160,8 +164,8 @@ export default {
           console.error(e);
         })
         .finally(() => {
-          this._resetCurrentQuestion();
           this._resetTotalQuestionNumber();
+          this._resetCurrentQuestion();
         });
     },
     _resetCurrentQuestion: function () {
@@ -170,7 +174,7 @@ export default {
       }
     },
     _resetTotalQuestionNumber: function () {
-      this.totalQuestions = this.questions.length;
+      this.numberOfQuestions = this.questions.length;
     },
     _getUser: function () {
       Axios
