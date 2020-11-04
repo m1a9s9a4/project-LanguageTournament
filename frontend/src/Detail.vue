@@ -1,25 +1,81 @@
 <template>
-    <v-main>
-        <h2>{{ language }} is Compared with...</h2>
-        <v-row>
-            <v-col cols="12" md="3">
-                <Language />
-            </v-col>
-        </v-row>
-    </v-main>
+  <v-main>
+    <h3>「{{ player.japanese }}」はこれらと比較されています...</h3>
+    <v-row>
+      <v-col cols="12" md="3" v-for="(p, i) in players" v-bind:key="i">
+					<Language :name="p.japanese" :imgsrc="p.img" :link="'/'+player.english+'/vs/'+p.english" />
+				<v-row>
+					<v-col>
+						<v-btn block color="primary" :href="'/detail/'+player.english+'/answers/'+p.english+'/'">{{ p.japanese }}のアンケート結果はこちら</v-btn>
+					</v-col>
+				</v-row>
+      </v-col>
+    </v-row>
+  </v-main>
 </template>
 
 <script>
-import Language from './components/Detail/Language';
+import Axios from "axios";
+import Language from "./components/Detail/Language";
 
 export default {
-    computed: {
-        language: function () {
-        return this.$route.params["lang"];
-        },
-    },
-    components: {
-        Language,
-    },
-}
+	data: () => ({
+		english: null,
+		player: {},
+		battles: [],
+		players: [],
+	}),
+	created: function() { 
+		this.english = this.$route.params["eng"];
+		this.getPlayerByEnglish();
+	},
+  components: {
+    Language,
+  },
+  methods: {
+		getPlayerByEnglish: function () {
+			Axios
+				.get("/api/v1/player/english/"+this.english)
+				.then(res => {
+					this.player = res.data;
+				})
+				.catch(e => {
+					console.error(e);
+				})
+				.finally(() => {
+					this.getBattledPlayers();
+				});
+		},
+    getBattledPlayers: function () {
+			Axios
+				.get("/api/v1/battle/player/"+this.player.id)
+				.then(res => {
+					this.battles = this._filterPlayers(res.data);
+				})
+				.finally(() => {
+					this.getPlayers();
+				});
+		},
+		firstPlayerById: function(id) {
+			Axios
+				.get("/api/v1/player/"+id)
+				.then(res => {
+					this.players.push(res.data);
+				});
+		},
+		getPlayers: function() {
+			this.battles.map((b) => {
+				this.firstPlayerById(b);
+			});
+		},
+		_filterPlayers: function (battles) {
+			return battles.map((b) => {
+				if (b.player_1_id == this.player.id) {
+					return b.player_2_id;
+				}
+				return b.player_1_id;
+			});
+		},
+  },
+};
 </script>
