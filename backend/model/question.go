@@ -5,11 +5,10 @@ import "gorm.io/gorm"
 const QuestionTable = "question"
 
 type Question struct {
-	gorm.Model
-	ID           int64  `json:"id"`
-	Japanese     string `json:"japanese"`
-	English      string `json:"english"`
-	PlayerTypeID int64  `json:"player_type_id"`
+	Id           uint   `json:"id"`
+	Japanese     string `json:"japanese" gorm:"column:japanese"`
+	English      string `json:"english" gorm:"column:english"`
+	PlayerTypeId int64  `json:"player_type_id" gorm:"column:player_type_id"`
 }
 
 type Questions []Question
