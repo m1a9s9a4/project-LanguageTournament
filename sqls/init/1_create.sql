@@ -81,3 +81,28 @@ CREATE TABLE answered_users (
     INDEX uid_question_index (uid, question_id),
     UNIQUE uid_question_id_unique_index (uid, question_id)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+
+SELECT 
+    *
+From answer a
+left join question q on q.id = a.question_id
+where battle_id = 2
+;
+
+-- 各question_idの回答数を確認する
+select question_id, battle_id, count(*) from answer a where battle_id = 2 group by question_id;
+-- 質問ごとの選択ごとの数を確認する
+select 
+    question_id, count(*) 
+from 
+    (select * from answer where battle_id = 2) as sa 
+GROUP by 
+    question_id;
+
+select 
+    selected_player_id, count(*) 
+from 
+    (select * from answer where battle_id = 2 and question_id = 2) as sa 
+GROUP by 
+    selected_player_id;
