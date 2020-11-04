@@ -4,9 +4,9 @@ import "gorm.io/gorm"
 
 type AnsweredUser struct {
 	gorm.Model
-	UID         string `json:"uid"`
-	Battle_ID   int    `json:"battle_id"`
-	Question_ID int    `json:"question_id"`
+	UID        string `json:"uid"; gorm:"column:id"`
+	BattleId   int    `json:"battle_id"; gorm:"column:battle_id"`
+	QuestionId int    `json:"question_id"; gorm:"question_id"`
 }
 
 const AnsweredUserTable = "answered_users"
