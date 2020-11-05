@@ -45,12 +45,7 @@
 					</template>
 					<template v-else>
 						<v-col class="text-center">
-							<v-progress-circular
-								:size="70"
-								width="7"
-								color="primary"
-								indeterminate
-							></v-progress-circular>
+							<Loading />
 						</v-col>
 					</template>
 				</v-row>
@@ -65,14 +60,7 @@
 			</v-row>
 		</template>
 		<template v-else>
-			<div class="text-center">
-				<v-progress-circular
-					:size="70"
-					width="7"
-					color="primary"
-					indeterminate
-				></v-progress-circular>
-			</div>
+			<Loading />
 		</template>
   </v-main>
 </template>
@@ -81,6 +69,7 @@
 import Axios from "axios";
 import Twitter from './components/Share/Twitter';
 import Facebook from './components/Share/Facebook';
+import Loading from './components/Common/Loading';
 
 export default {
   data: () => ({
@@ -94,6 +83,7 @@ export default {
 	components: {
 		Twitter,
 		Facebook,
+		Loading,
 	},
 	computed: {
 		questionUrl: function() {

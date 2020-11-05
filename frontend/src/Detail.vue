@@ -2,14 +2,22 @@
   <v-main>
     <h3>「{{ player.japanese }}」はこれらと比較されています...</h3>
     <v-row>
-      <v-col cols="12" md="3" v-for="(p, i) in players" v-bind:key="i">
+			<template v-if="players.length > 0">
+				<v-col cols="12" md="3" v-for="(p, i) in players" v-bind:key="i">
 					<Language :name="p.japanese" :imgsrc="p.img" :link="'/'+player.english+'/vs/'+p.english" />
-				<v-row>
-					<v-col>
-						<v-btn block color="primary" :href="'/detail/'+player.english+'/answers/'+p.english+'/'">{{ p.japanese }}のアンケート結果はこちら</v-btn>
-					</v-col>
-				</v-row>
-      </v-col>
+					<v-row>
+						<v-col>
+							<v-btn block color="primary" :href="'/detail/'+player.english+'/answers/'+p.english+'/'">{{ p.japanese }}のアンケート結果はこちら</v-btn>
+						</v-col>
+						<v-col>
+							<v-btn block color="info" :href="'/'+player.english+'/vs/'+p.english+'/'">{{ player.english }} vs {{ p.english }}の回答はこちら</v-btn>
+						</v-col>
+					</v-row>
+				</v-col>
+			</template>
+			<template v-else>
+				<Loading />
+			</template>
     </v-row>
   </v-main>
 </template>
@@ -17,6 +25,7 @@
 <script>
 import Axios from "axios";
 import Language from "./components/Detail/Language";
+import Loading from "./components/Common/Loading";
 
 export default {
 	data: () => ({
@@ -30,7 +39,8 @@ export default {
 		this.getPlayerByEnglish();
 	},
   components: {
-    Language,
+		Language,
+		Loading,
   },
   methods: {
 		getPlayerByEnglish: function () {

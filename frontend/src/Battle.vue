@@ -132,6 +132,7 @@ export default {
           selected_player_id: id,
           battle_id: this.battleId,
       };
+      console.log("params", params);
       Axios
         .post("/api/v1/answer", params, {
           headers: {
@@ -157,6 +158,7 @@ export default {
           }
         })
         .then(res => {
+          console.log(res.data, this.uid);
           const qids = res.data.map(data => {
             return data.question_id;
           });

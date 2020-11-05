@@ -1,7 +1,6 @@
 <template>
-    <div class="subtitle-1 text-center mt-5 pa-5">
-        <p>どちらの選択肢が以下の質問を満たしていますか？</p>
-        <p>{{current}} / {{total}}</p>
+    <div class="subtitle-1 text-center">
+        <p>{{current}} / {{total}} どちらが該当しますか？</p>
         <p>「{{question.japanese}}」</p>
     </div>
 </template>

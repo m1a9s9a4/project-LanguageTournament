@@ -1,6 +1,6 @@
 <template>
     <v-card class="mx-auto" max-width="300" elevation="10">
-        <a href="#">
+        <a :href="'/detail/'+english">
           <v-img contain :alt="name" height="200" :src="imgsrc"></v-img>
         </a>
     </v-card>
@@ -9,6 +9,9 @@
 <script>
 export default {
   props: {
+    english: {
+      type: String,
+    },
     name: {
       type: String,
       default: "vuetify",
