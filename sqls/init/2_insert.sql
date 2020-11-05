@@ -24,7 +24,7 @@ INSERT INTO question (japanese, english, player_type_id) VALUES (
     '処理速度が速い', 'Fast process', 1
 );
 INSERT INTO question (japanese, english, player_type_id) VALUES (
-    '開発環境構築のしやすい', 'Easy to create development environment', 1
+    '開発環境構築がしやすい', 'Easy to create development environment', 1
 );
 INSERT INTO question (japanese, english, player_type_id) VALUES (
     'コミュニティが充実している', 'Great community', 1

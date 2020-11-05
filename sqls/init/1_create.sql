@@ -79,7 +79,7 @@ CREATE TABLE answered_users (
     FOREIGN KEY (question_id) REFERENCES question (id),
     PRIMARY KEY (id),
     INDEX uid_question_index (uid, question_id),
-    UNIQUE uid_question_id_unique_index (uid, question_id)
+    UNIQUE uid_question_battle_id_unique_index (uid, question_id, battle_id)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
