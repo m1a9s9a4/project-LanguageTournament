@@ -2,7 +2,14 @@
   <v-main>
     <h3 class="text-center">{{ player.japanese }} vs {{opponent.japanese}} アンケート結果</h3>
 		<p class="text-center">※バー中央の%が<strong>{{player.japanese}}</strong>を選んだ割合です。</p>
-		<v-btn block color="info" :href="questionUrl">回答する</v-btn>
+		<v-row>
+			<v-col>
+				<v-btn block color="info" :href="questionUrl">回答する</v-btn>
+			</v-col>
+			<v-col>
+				<Twitter :title="player.english+' vs '+opponent.english" :url="questionUrl" text="回答を求める" />
+			</v-col>
+		</v-row>
 		<v-row>
 			<v-col cols="12" v-for="(q, i) in questions" v-bind:key="i">
 				<p>{{i+1}}. {{q.japanese}}</p>
@@ -37,6 +44,7 @@
 
 <script>
 import Axios from "axios";
+import Twitter from './components/Share/Twitter';
 
 export default {
   data: () => ({
@@ -47,6 +55,9 @@ export default {
 		answers: [],
 		summaries: [],
 	}),
+	components: {
+		Twitter,
+	},
 	computed: {
 		questionUrl: function() {
 			return '/' + this.player.english + '/vs/' + this.opponent.english;
