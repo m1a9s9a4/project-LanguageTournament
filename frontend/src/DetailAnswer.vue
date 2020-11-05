@@ -4,10 +4,15 @@
 		<p class="text-center">※バー中央の%が<strong>{{player.japanese}}</strong>を選んだ割合です。</p>
 		<v-row>
 			<v-col>
-				<v-btn block color="info" :href="questionUrl">回答する</v-btn>
+				<v-btn block color="primary" :href="questionUrl">回答する</v-btn>
 			</v-col>
-			<v-col>
+		</v-row>
+		<v-row>
+			<v-col cols="6">
 				<Twitter :title="player.english+' vs '+opponent.english" :url="questionUrl" text="回答を求める" />
+			</v-col>
+			<v-col cols="6">
+				<Facebook :title="player.english+' vs '+opponent.english" :url="questionUrl" />
 			</v-col>
 		</v-row>
 		<v-row>
@@ -33,10 +38,10 @@
 		</v-row>
 		<v-row>
 			<v-col>
-				<v-btn block color="info" :href="questionUrl">回答する</v-btn>
+				<v-btn block color="primary" :href="questionUrl">回答する</v-btn>
 			</v-col>
 			<v-col>
-				<v-btn block color="primary" href="/">トップに戻る</v-btn>
+				<v-btn block color="primary" outlined href="/">トップに戻る</v-btn>
 			</v-col>
 		</v-row>
   </v-main>
@@ -45,6 +50,7 @@
 <script>
 import Axios from "axios";
 import Twitter from './components/Share/Twitter';
+import Facebook from './components/Share/Facebook';
 
 export default {
   data: () => ({
@@ -57,6 +63,7 @@ export default {
 	}),
 	components: {
 		Twitter,
+		Facebook,
 	},
 	computed: {
 		questionUrl: function() {

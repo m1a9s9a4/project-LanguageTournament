@@ -1,5 +1,5 @@
 <template>
-    <v-btn block @click="twitterShare" color="primary"><v-icon>mdi-twitter</v-icon> {{ text }}</v-btn>
+    <v-btn block @click="twitterShare" color="info"><v-icon>mdi-twitter</v-icon> {{ text }}</v-btn>
 </template>
 <script>
 export default {
