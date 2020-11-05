@@ -1,9 +1,35 @@
 <template>
   <v-main>
     <h3 class="text-center">{{ player.japanese }} vs {{opponent.japanese}} アンケート結果</h3>
+		<p class="text-center">※バー中央の%が<strong>{{player.japanese}}</strong>を選んだ割合です。</p>
+		<v-btn block color="info" :href="questionUrl">回答する</v-btn>
 		<v-row>
 			<v-col cols="12" v-for="(q, i) in questions" v-bind:key="i">
 				<p>{{i+1}}. {{q.japanese}}</p>
+				<template v-if="q.data">
+					<v-progress-linear
+						v-model="q.data.percentage"
+						height="25"
+						color="info"
+					>
+						<template v-slot="{ value }">
+							<strong color="white">{{ Math.ceil(value) }}% / 回答数{{q.data.sum}}</strong>
+						</template>
+					</v-progress-linear>
+				</template>
+				<template v-else>
+					<v-alert dense border="left" type="warning">
+							回答がありません
+					</v-alert>
+				</template>
+			</v-col>
+		</v-row>
+		<v-row>
+			<v-col>
+				<v-btn block color="info" :href="questionUrl">回答する</v-btn>
+			</v-col>
+			<v-col>
+				<v-btn block color="primary" href="/">トップに戻る</v-btn>
 			</v-col>
 		</v-row>
   </v-main>
@@ -19,7 +45,13 @@ export default {
 		battleId: null,
 		questions: [],
 		answers: [],
+		summaries: [],
 	}),
+	computed: {
+		questionUrl: function() {
+			return '/' + this.player.english + '/vs/' + this.opponent.english;
+		}
+	},
 	created: function() {
 		this._getPlayerByEnglish(this.$route.params["eng1"], 'player');
 		this._getPlayerByEnglish(this.$route.params["eng2"], 'opponent')
@@ -50,20 +82,30 @@ export default {
 			Axios
 				.get("/api/v1/answer/battle/"+this.battleId+"/"+qid+"/count")
 				.then(res => {
-					res.data.map(d => {
-						// いい感じにq => [total]とかにした
-						this.answers.push({[qid]: {d}});
-					});
-				})
-				.finally(() => {
+					if (res.data == null) return;
 
+					let sum = 0;
+					let p_count = 0;
+					res.data.map(d => {
+						if (d.target_id == this.player.id) {
+							p_count = d.count;
+						}
+						sum += d.count;
+					});
+					const percentage = p_count / sum * 100;
+					this.questions = this.questions.map(q => {
+						if (q.id == qid) {
+							q['data'] = {sum, percentage};
+						}
+						return q;
+					})
+					this.summaries.push({[qid]: {sum, percentage}});
 				});
 		},
     getBattleId: function () {
       Axios
         .get("/api/v1/battle/" +this.player.id+"/"+this.opponent.id)
         .then(res => {
-					console.log(res.data);
 					this.battleId = res.data.id;
         })
         .catch(e => {
