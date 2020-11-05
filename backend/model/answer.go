@@ -14,7 +14,7 @@ type Answer struct {
 const AnswerTable = "answer"
 
 func (a *Answer) Save(db *gorm.DB) error {
-	rslt := db.Table(AnswerTable).Create(a)
+	rslt := db.Table(AnswerTable).Create(&a)
 	if rslt.Error != nil {
 		return rslt.Error
 	}

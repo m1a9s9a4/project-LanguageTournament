@@ -3,7 +3,6 @@ package model
 import "gorm.io/gorm"
 
 type AnsweredUser struct {
-	gorm.Model
 	UID        string `json:"uid"; gorm:"column:id"`
 	BattleId   int    `json:"battle_id"; gorm:"column:battle_id"`
 	QuestionId int    `json:"question_id"; gorm:"question_id"`

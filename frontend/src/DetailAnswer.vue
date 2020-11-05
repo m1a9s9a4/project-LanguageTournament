@@ -1,49 +1,79 @@
 <template>
   <v-main>
-    <h3 class="text-center">{{ player.japanese }} vs {{opponent.japanese}} アンケート結果</h3>
-		<p class="text-center">※バー中央の%が<strong>{{player.japanese}}</strong>を選んだ割合です。</p>
-		<v-row>
-			<v-col>
-				<v-btn block color="primary" :href="questionUrl">回答する</v-btn>
-			</v-col>
-		</v-row>
-		<v-row>
-			<v-col cols="6">
-				<Twitter :title="player.english+' vs '+opponent.english" :url="questionUrl" text="回答を求める" />
-			</v-col>
-			<v-col cols="6">
-				<Facebook :title="player.english+' vs '+opponent.english" :url="questionUrl" />
-			</v-col>
-		</v-row>
-		<v-row>
-			<v-col cols="12" v-for="(q, i) in questions" v-bind:key="i">
-				<p>{{i+1}}. {{q.japanese}}</p>
-				<template v-if="q.data">
-					<v-progress-linear
-						v-model="q.data.percentage"
-						height="25"
-						color="info"
-					>
-						<template v-slot="{ value }">
-							<strong color="white">{{ Math.ceil(value) }}% / 回答数{{q.data.sum}}</strong>
-						</template>
-					</v-progress-linear>
-				</template>
-				<template v-else>
-					<v-alert dense border="left" type="warning">
-							回答がありません
-					</v-alert>
-				</template>
-			</v-col>
-		</v-row>
-		<v-row>
-			<v-col>
-				<v-btn block color="primary" :href="questionUrl">回答する</v-btn>
-			</v-col>
-			<v-col>
-				<v-btn block color="primary" outlined href="/">トップに戻る</v-btn>
-			</v-col>
-		</v-row>
+		<template v-if="player && opponent">
+			<h3 class="text-center">{{ player.japanese }} vs {{opponent.japanese}} アンケート結果</h3>
+			<p class="text-center">※バー中央の%が<strong>{{player.japanese}}</strong>を選んだ割合です。</p>
+			<v-row>
+				<v-col cols="6"><v-img :src="player.img"></v-img></v-col>
+				<v-col cols="6"><v-img :src="opponent.img"></v-img></v-col>
+			</v-row>
+			<v-row>
+				<v-col>
+					<v-btn block color="primary" :href="questionUrl">回答する</v-btn>
+				</v-col>
+			</v-row>
+			<v-row>
+				<v-col cols="6">
+					<Twitter :title="player.english+' vs '+opponent.english" :url="questionUrl" text="回答を求める" />
+				</v-col>
+				<v-col cols="6">
+					<Facebook :title="player.english+' vs '+opponent.english" :url="questionUrl" />
+				</v-col>
+			</v-row>
+			<template >
+				<v-row>
+					<template v-if="questions.length > 0">
+						<v-col cols="12" v-for="(q, i) in questions" v-bind:key="i">
+							<p>{{i+1}}. {{q.japanese}}</p>
+							<template v-if="q.data">
+								<v-progress-linear
+									v-model="q.data.percentage"
+									height="25"
+									color="info"
+								>
+									<template v-slot="{ value }">
+										<strong>{{ Math.ceil(value) }}% / 回答数{{q.data.sum}}</strong>
+									</template>
+								</v-progress-linear>
+							</template>
+							<template v-else>
+								<v-alert dense border="left" type="warning">
+										回答がありません
+								</v-alert>
+							</template>
+						</v-col>
+					</template>
+					<template v-else>
+						<v-col class="text-center">
+							<v-progress-circular
+								:size="70"
+								width="7"
+								color="primary"
+								indeterminate
+							></v-progress-circular>
+						</v-col>
+					</template>
+				</v-row>
+			</template>
+			<v-row>
+				<v-col>
+					<v-btn block color="primary" :href="questionUrl">回答する</v-btn>
+				</v-col>
+				<v-col>
+					<v-btn block color="primary" outlined href="/">トップに戻る</v-btn>
+				</v-col>
+			</v-row>
+		</template>
+		<template v-else>
+			<div class="text-center">
+				<v-progress-circular
+					:size="70"
+					width="7"
+					color="primary"
+					indeterminate
+				></v-progress-circular>
+			</div>
+		</template>
   </v-main>
 </template>
 
