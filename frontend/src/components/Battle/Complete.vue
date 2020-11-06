@@ -12,9 +12,10 @@
         </v-row>
         <v-row>
             <v-col>
-                <v-btn href="/" block color="secondary">
-                    トップに戻る
-                </v-btn>
+                <v-btn :href="'/detail/'+english1+'/answers/'+english2+'/'" block color="info">他の人の結果を見る</v-btn>
+            </v-col>
+            <v-col>
+                <v-btn href="/" block outlined color="info">トップに戻る</v-btn>
             </v-col>
         </v-row>
     </v-main>
@@ -29,6 +30,12 @@ export default {
         src2: {
             type: String,
         },
+        english1: {
+            type: String,
+        },
+        english2: {
+            type: String,
+        }
     }
 }
 </script>

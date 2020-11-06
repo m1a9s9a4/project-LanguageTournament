@@ -1,7 +1,7 @@
 <template>
     <v-main v-cloak>
       <template v-if="questionFinished">
-        <Complete :src1="player1.img" :src2="player2.img" />
+        <Complete :src1="player1.img" :src2="player2.img" :english1="english1" :english2="english2" />
       </template>
       <template v-else>
         <Question v-if="currentQuestion" :question="currentQuestion" :current="currentNumber" :total="numberOfQuestions" />
@@ -18,7 +18,7 @@
                 @selected-id="saveAnswer"
               />
             </v-col>
-            <v-col class="display-3" cols="12">
+            <v-col class="display-3" md="2" cols="12">
               <div class="text-center">
                 or
               </div>
@@ -53,6 +53,8 @@ export default {
   },
 
   data: () => ({
+    english1: null,
+    english2: null,
     player1: [],
     player2: [],
     questions: {},
@@ -66,9 +68,11 @@ export default {
 
 
   created: function () {
+    this.english1 = this.$route.params["p1"];
+    this.english2 = this.$route.params["p2"];
     this.uid = localStorage.getItem("uid");
-    this.getPlayer(this.$route.params["p1"]);
-    this.getPlayer(this.$route.params["p2"]);
+    this.getPlayer(this.english1);
+    this.getPlayer(this.english2);
   },
 
   computed: {

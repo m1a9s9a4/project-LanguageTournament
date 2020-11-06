@@ -7,10 +7,10 @@
 					<Language :name="p.japanese" :imgsrc="p.img" :link="'/'+player.english+'/vs/'+p.english" />
 					<v-row>
 						<v-col>
-							<v-btn block color="primary" :href="'/detail/'+player.english+'/answers/'+p.english+'/'">{{ p.japanese }}のアンケート結果はこちら</v-btn>
+							<v-btn block color="primary" :href="'/'+player.english+'/vs/'+p.english+'/'">回答はこちら</v-btn>
 						</v-col>
 						<v-col>
-							<v-btn block color="info" :href="'/'+player.english+'/vs/'+p.english+'/'">{{ player.english }} vs {{ p.english }}の回答はこちら</v-btn>
+							<v-btn block color="info" :href="'/detail/'+player.english+'/answers/'+p.english+'/'">結果はこちら</v-btn>
 						</v-col>
 					</v-row>
 				</v-col>
