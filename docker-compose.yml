@@ -9,33 +9,18 @@ services:
     ports:
       - 8080:8080 # 開放するポート
     depends_on: # dbコンテナに接続する ビルドするのもdbコンテナが立ち上がってからになる
-      - mysql
+      - db
 
-  mysql:
+  db:
     build: ./db/
     ports:
-        - 3306:3306
+        - 5432:5432
     volumes:
-      - "./mysql:/var/lib/mysql"
       - "./sqls/init:/docker-entrypoint-initdb.d"
     environment:
-      - MYSQL_DATABASE=comparision_box
-      - MYSQL_USER=mysql
-      - MYSQL_PASSWORD=mysql
-      - MYSQL_ROOT_PASSWORD=password
+      - POSTGRES_DATABASE=comparision_box
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      - PMA_ARBITRARY=1
-      - PMA_HOST=mysql
-      - PMA_USER=root
-      - PMA_PASSWORD=password
-    links:
-      - mysql
-    ports:
-      - 8080:80
-    volumes:
-      - /sessions
 volumes:
   mysql_data: # ローカルのディレクトリにデータを保存

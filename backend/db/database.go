@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/m1a9s9a4/language_tournament/conf"
-	"gorm.io/driver/mysql"
+	driver "gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
@@ -38,7 +38,7 @@ func Init() *gorm.DB {
 
 func createSession() *gorm.DB {
 	dsn := _createDsn()
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(driver.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		panic(err.Error)
@@ -48,5 +48,5 @@ func createSession() *gorm.DB {
 }
 
 func _createDsn() string {
-	return conf.USER + ":" + conf.PASS + "@tcp(" + conf.HOST + ":" + conf.PORT + ")/" + conf.DB + "?charset=utf8&parseTime=True&loc=Local"
+	return "host=" + conf.HOST + " user=" + conf.USER + " password=" + conf.PASS + " dbname=" + conf.DB + " port=" + conf.PORT + " sslmode=disable TimeZone=Asia/Tokyo"
 }

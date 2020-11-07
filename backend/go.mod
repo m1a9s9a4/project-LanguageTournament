@@ -23,6 +23,7 @@ require (
 	github.com/google/pprof v0.0.0-20201023163331-3e6fc7fc9c4c // indirect
 	github.com/iancoleman/strcase v0.1.2 // indirect
 	github.com/jinzhu/gorm v1.9.16
+	github.com/joho/godotenv v1.3.0
 	github.com/labstack/echo v3.3.10+incompatible
 	github.com/labstack/gommon v0.3.0 // indirect
 	github.com/lib/pq v1.8.0 // indirect
@@ -50,5 +51,6 @@ require (
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 // indirect
 	gorm.io/driver/mysql v1.0.3
+	gorm.io/driver/postgres v1.0.5
 	gorm.io/gorm v1.20.5
 )
