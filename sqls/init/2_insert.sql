@@ -4,6 +4,7 @@ INSERT INTO player (id, japanese, english, img, type_id) VALUES (1, 'php', 'php'
 INSERT INTO player (id, japanese, english, img, type_id) VALUES (2, 'golang', 'golang', 'https://cdn.svgporn.com/logos/go.svg', 1);
 INSERT INTO player (id, japanese, english, img, type_id) VALUES (3, 'vue.js', 'vue.js', 'https://cdn.svgporn.com/logos/vue.svg', 1);
 
+
 INSERT INTO battle (player_1_id, player_2_id) VALUES (1, 2);
 INSERT INTO battle (player_1_id, player_2_id) VALUES (1, 3);
 INSERT INTO battle (player_1_id, player_2_id) VALUES (2, 3);
