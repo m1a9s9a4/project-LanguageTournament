@@ -89,7 +89,6 @@ export default {
       Axios
         .get("/api/v1/battle/" +this.player1.id+"/"+this.player2.id)
         .then(res => {
-          console.log
           this.battleId = res.data.id;
         })
         .catch(e => {
@@ -136,7 +135,6 @@ export default {
           selected_player_id: id,
           battle_id: this.battleId,
       };
-      console.log("params", params);
       Axios
         .post("/api/v1/answer", params, {
           headers: {
@@ -162,7 +160,6 @@ export default {
           }
         })
         .then(res => {
-          console.log(res.data, this.uid);
           const qids = res.data.map(data => {
             return data.question_id;
           });
@@ -195,7 +192,6 @@ export default {
         battle_id: this.battleId,
         uid: this.uid,
       };
-      console.log(params);
       Axios
         .post("/api/v1/answer/user", params, {
           headers: {
