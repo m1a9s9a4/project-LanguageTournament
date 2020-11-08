@@ -1,5 +1,5 @@
 {
-  "name": "frontend_vuetify",
+  "name": "comparison-box",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -27,6 +27,7 @@
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.3.0"
   },
+  "postinstall": "npm run build",
   "eslintConfig": {
     "root": true,
     "env": {
